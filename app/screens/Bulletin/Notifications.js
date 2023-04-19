@@ -1,52 +1,31 @@
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Image, StyleSheet, Text,TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {notifications} from '../../data/notifications';
 
 export default function Notifications() {
-  const NotificationItem = ({
-    notification_type,
-    notice_title,
-    notice,
-    posted_on,
-    status,
-  }) => {
+  const NotificationItem = ({item}) => {
     return (
-      <View
-        style={{
-          height: 100,
-          flexDirection: 'row',
-          alignItems: 'center',
-          borderRadius: 10,
-          backgroundColor: '#ffffff',
-          elevation: 3,
-          padding: 10,
-        }}>
-        <View
-          style={{
-            height: 70,
-            width: 70,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+      <TouchableOpacity style={styles.containerNoticeItem}>
+        <View style={styles.container_Notice_Icon}>
           <Icon
-            name={notification_type}
+            name={item?.notice_type}
             size={50}
-            color={status === 'failed' ? 'crimson' : Color.primary}
+            color={item.status === 'failed' ? 'crimson' : Color.primary}
           />
         </View>
         <View style={{height: '100%', flex: 1, justifyContent: 'space-evenly'}}>
-          {notice_title && (
+          {item.notice_title && (
             <Text numberOfLines={1} style={{color: 'black'}}>
-              {notice_title}
+              {item.notice_title}
             </Text>
           )}
           <Text numberOfLines={2} style={{color: 'black'}}>
-            {notice}
+            {item.notice}
           </Text>
-          <Text style={{fontSize: 12}}>{posted_on}</Text>
+          <Text style={{fontSize: 12}}>{item.posted_on}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -73,20 +52,28 @@ export default function Notifications() {
       ItemSeparatorComponent={<View style={{height: 5}} />}
       contentContainerStyle={{flexGrow: 1, padding: 10}}
       ListEmptyComponent={<ListEmpty />}
-      renderItem={({item}) => (
-        <NotificationItem
-          notification_type={item.notice_type}
-          notice_title={item.title}
-          notice={item.notice}
-          posted_on={item.posted_on}
-          status={item.status}
-        />
-      )}
+      renderItem={({item}) => <NotificationItem item={item} />}
     />
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  containerNoticeItem: {
+    height: 100,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 10,
+    backgroundColor: '#ffffff',
+    elevation: 3,
+    padding: 10,
+  },
+  container_Notice_Icon: {
+    height: 70,
+    width: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 const Color = {
   primary: '#547855',
 };

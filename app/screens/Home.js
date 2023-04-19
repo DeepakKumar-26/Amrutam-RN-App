@@ -6,12 +6,12 @@ import {
   Image,
   FlatList,
   Dimensions,
+  TouchableOpacity,
   ImageBackground,
 } from 'react-native';
 import React, {useState} from 'react';
 import Slider from '@react-native-community/slider';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {blogs} from '../data/blogs';
 import {lookingFor} from '../data/lookingFor';
 import {doctors} from '../data/doctors';
@@ -25,7 +25,7 @@ const {height, width} = Dimensions.get('window');
 // ACTIVITY COMPONENT
 const Activity = ({item}) => {
   return (
-    <View style={styles.activity} key={item.id}>
+    <TouchableOpacity style={styles.activity}>
       <Image source={item.icon_left} style={{height: 40, width: 40}} />
       <View>
         {!item.is_data_available && (
@@ -38,25 +38,25 @@ const Activity = ({item}) => {
         </Text>
       </View>
       <Icon name={item.icon_right} size={30} color={Color.primary} />
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const ProductCategory = ({item}) => {
   return (
-    <View style={{alignItems: 'center', margin: 5}}>
+    <TouchableOpacity style={{alignItems: 'center', margin: 5}}>
       <View style={styles.shop}>
         <Image source={item.image} style={{width: 40, height: 40}} />
       </View>
       <Text style={{color: '#5F5F5F'}}>{item.category}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const Blog = ({item}) => {
   return (
-    <View style={styles.containerBlog}>
-      <View style={{flex: 1, padding: 10}}>
+    <TouchableOpacity style={styles.containerBlog}>
+      <View style={{flex: 1, padding: 10, justifyContent: 'space-between'}}>
         <Text numberOfLines={3} style={{color: 'black'}}>
           {item.title}
         </Text>
@@ -75,13 +75,13 @@ const Blog = ({item}) => {
           style={{width: 120, flex: 1}}
         />
       </ImageBackground>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const RecentOrder = ({item}) => {
   return (
-    <View style={styles.containerOrders}>
+    <TouchableOpacity style={styles.containerOrders}>
       <Image
         source={{
           uri: item.thumbnail_url,
@@ -120,210 +120,222 @@ const RecentOrder = ({item}) => {
           <Text style={{color: Color.primary}}>Reorder</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
+  );
+};
+
+const ItemLookinFor = ({item}) => {
+  return (
+    <TouchableOpacity style={styles.containerCardLookingFor}>
+      <View style={styles.containerImage_LookingFor}>
+        <Image source={item.thumbnail_url} style={{height: 50, width: 50}} />
+      </View>
+      <Text style={styles.textTitle_Prods}>{item.title}</Text>
+    </TouchableOpacity>
+  );
+};
+
+const Doctor = ({item}) => {
+  return (
+    <TouchableOpacity style={styles.containerDoctorCard}>
+      <Image
+        source={{
+          uri: item.profile_image,
+        }}
+        style={{height: 150, width: 200}}
+      />
+      <Text style={styles.textDoctorName}>{item.name}</Text>
+      <TouchableOpacity style={styles.btnFollow}>
+        <Text style={{color: '#ffffff'}}>Follow</Text>
+      </TouchableOpacity>
+    </TouchableOpacity>
   );
 };
 
 export default function Home() {
   const [showCard, setShowCard] = useState(true);
+  const [sliderValue, setSliderValue] = useState(.5);
   const date = new Date();
 
   const currentMonth = months[date.getMonth()];
   const currentDate = date.getDate();
   const currentDay = daysOfWeek[date.getDay()];
+
   return (
     <ScrollView
-      contentContainerStyle={{flexGrow: 1, backgroundColor: '#FFFFFF'}}>
-      <View
-        style={{flex: 1, backgroundColor: '#FFFFFF', paddingHorizontal: 10}}>
-        {/* Greetings */}
-        <View style={{marginVertical: 10}}>
-          <Text style={{color: Color.primary}}>
-            {currentDay}, {currentDate} {currentMonth}
-          </Text>
-          <Text
-            style={{color: Color.primary, fontSize: 18, fontWeight: 'bold'}}>
-            Namaste, Angela
-          </Text>
-        </View>
+      contentContainerStyle={{
+        flexGrow: 1,
+        backgroundColor: '#FFFFFF',
+        paddingHorizontal: 10,
+      }}>
+      {/* Greetings */}
+      <View style={{marginVertical: 10}}>
+        <Text style={{color: Color.primary}}>
+          {currentDay}, {currentDate} {currentMonth}
+        </Text>
+        <Text style={{color: Color.primary, fontSize: 18, fontWeight: 'bold'}}>
+          Namaste, Angela
+        </Text>
+      </View>
 
-        {/* Dismissible Card - How are you feeling today? */}
-        {showCard && (
-          <View
-            style={{backgroundColor: '#FFF7E2', padding: 10, borderRadius: 10}}>
-            <Icon
-              onPress={() => setShowCard(!showCard)}
-              name="close"
-              size={20}
-              style={{alignSelf: 'flex-end'}}
-            />
-            <Text style={{color: Color.primary, fontSize: 15}}>
-              How are you <Text style={{fontWeight: 'bold'}}>feeling</Text>{' '}
-              today?
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginVertical: 10,
-              }}>
-              {moods.map(item => (
-                <Icon
-                  name={item.icon}
-                  size={50}
-                  color={Color.primary}
-                  key={item.id}
-                />
-              ))}
-            </View>
-
-            <View>
-              <Slider
-                minimumValue={0}
-                maximumValue={1}
-                value={0.8}
-                minimumTrackTintColor={Color.primary}
-                maximumTrackTintColor="grey"
-                thumbTintColor={Color.primary}
-              />
-            </View>
-          </View>
-        )}
-
-        {/* Activities - SLeeping,walking,screentime*/}
-        <View style={{marginVertical: 10}}>
-          {activities.map(item => (
-            <Activity item={item} />
-          ))}
-        </View>
-
-        {/* Shop for Health & Beauty */}
+      {/* Dismissible Card - How are you feeling today? */}
+      {showCard && (
         <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 5,
-          }}>
-          <Text style={styles.textSectionTitle}>Shop for Health & Beauty</Text>
-          <Icon name="chevron-right" color={Color.primary} size={25} />
-        </View>
-
-        <FlatList
-          horizontal
-          data={shopByCategory}
-          keyExtractor={(item, index) => item + index}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => <ProductCategory item={item} />}
-        />
-
-        {/* Upcoming Appointments */}
-        <>
+          style={{backgroundColor: '#FFF7E2', padding: 10, borderRadius: 10}}>
+          <Icon
+            onPress={() => setShowCard(!showCard)}
+            name="close"
+            size={20}
+            color={Color.primary}
+            style={{alignSelf: 'flex-end'}}
+          />
+          <Text style={{color: Color.primary, fontSize: 15}}>
+            How are you <Text style={{fontWeight: 'bold'}}>feeling</Text> today?
+          </Text>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginTop: 20,
-              marginBottom: 10,
+              marginVertical: 10,
             }}>
-            <Text style={styles.textSectionTitle}>Upcoming Appointments</Text>
-            <Text style={{color: Color.primary}}>Clear</Text>
+            {moods.map(item => (
+              <Icon
+                name={item.icon}
+                size={
+                  (sliderValue === 0
+                    ? item.value_min <= sliderValue
+                    : item.value_min < sliderValue) &&
+                  sliderValue <= item.value_max
+                    ? 50
+                    : 30
+                }
+                color={Color.primary}
+                key={item.id}
+              />
+            ))}
           </View>
 
-          <View style={styles.container_Appointment}>
-            <Icon name="calendar-check" color={Color.primary} size={25} />
-            <View style={{flex: 1, marginHorizontal: 5}}>
-              <Text style={{color: Color.primary}}>No New Appointments</Text>
-            </View>
-            <Text style={{color: Color.primary, fontWeight: 'bold'}}>
-              Book Now
-            </Text>
+          <View>
+            <Slider
+              minimumValue={0}
+              maximumValue={1}
+              onValueChange={value => setSliderValue(value)}
+              value={sliderValue}
+              minimumTrackTintColor={Color.primary}
+              maximumTrackTintColor="grey"
+              thumbTintColor={Color.primary}
+            />
           </View>
-        </>
-        {/* Recent Orders */}
-        <View style={{marginTop: 20}}>
-          <Text style={styles.textSectionTitle}>Recent Orders</Text>
-          <FlatList
-            horizontal
-            data={recentOrders}
-            keyExtractor={(item, index) => item + index}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({item}) => <RecentOrder item={item} />}
-            ItemSeparatorComponent={<View style={{width: 10}} />}
-          />
         </View>
+      )}
 
-        {/* Amrutam Blog */}
+      {/* Activities - SLeeping,walking,screentime*/}
+      <View style={{marginVertical: 10}}>
+        {activities.map(item => (
+          <Activity item={item} key={item.id} />
+        ))}
+      </View>
+
+      {/* Shop for Health & Beauty */}
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+        <Text style={styles.textSectionTitle}>Shop for Health & Beauty</Text>
+        <Icon name="chevron-right" color={Color.primary} size={25} />
+      </View>
+
+      <FlatList
+        horizontal
+        data={shopByCategory}
+        keyExtractor={(item, index) => item + index}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({item}) => <ProductCategory item={item} />}
+      />
+
+      {/* Upcoming Appointments */}
+      <>
         <View
           style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             marginTop: 20,
             marginBottom: 10,
           }}>
-          <Text style={styles.textSectionTitle}>Amrutam Blog</Text>
-
-          <FlatList
-            horizontal
-            data={blogs}
-            keyExtractor={(item, index) => item + index}
-            ItemSeparatorComponent={<View style={{width: 10}} />}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({item}) => <Blog item={item} />}
-          />
+          <Text style={styles.textSectionTitle}>Upcoming Appointments</Text>
+          <Text style={{color: Color.primary}}>Clear</Text>
         </View>
 
-        {/* What are you looking for ? */}
-        <View style={{marginVertical: 10}}>
-          <Text style={styles.textSectionTitle}>
-            What are you looking for ?
-          </Text>
-
-          <FlatList
-            horizontal
-            data={lookingFor}
-            keyExtractor={(item, index) => item + index}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              justifyContent: 'space-between',
-              flexGrow: 1,
-            }}
-            renderItem={({item}) => (
-              <View style={styles.containerCardLookingFor}>
-                <View style={styles.containerImage_LookingFor}>
-                  <Image
-                    source={item.thumbnail_url}
-                    style={{height: 50, width: 50}}
-                  />
-                </View>
-                <Text style={styles.textTitle_Prods}>{item.title}</Text>
-              </View>
-            )}
-          />
+        <View style={styles.container_Appointment}>
+          <Icon name="calendar-check" color={Color.primary} size={25} />
+          <View style={{flex: 1, marginHorizontal: 5}}>
+            <Text style={{color: Color.primary}}>No New Appointments</Text>
+          </View>
+          <TouchableOpacity>
+            <Text style={{color: Color.primary, fontWeight: 'bold'}}>
+              Book Now
+            </Text>
+          </TouchableOpacity>
         </View>
+      </>
 
-        {/* Top Rated Doctors */}
-        <View style={{marginVertical: 10}}>
-          <Text style={styles.textSectionTitle}>Top Rated Doctors</Text>
-          <FlatList
-            horizontal
-            data={doctors}
-            keyExtractor={(item, index) => item + index}
-            ItemSeparatorComponent={<View style={{width: 10}} />}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({item}) => (
-              <View style={styles.containerDoctorCard}>
-                <Image
-                  source={{
-                    uri: item.profile_image,
-                  }}
-                  style={{height: 150, width: 200}}
-                />
-                <Text style={styles.textDoctorName}>{item.name}</Text>
-                <TouchableOpacity style={styles.btnFollow}>
-                  <Text style={{color: '#ffffff'}}>Follow</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          />
-        </View>
+      {/* Recent Orders */}
+      <View style={{marginVertical: 10}}>
+        <Text style={styles.textSectionTitle}>Recent Orders</Text>
+        <FlatList
+          horizontal
+          data={recentOrders}
+          keyExtractor={(item, index) => item + index}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item}) => <RecentOrder item={item} />}
+          ItemSeparatorComponent={<View style={{width: 10}} />}
+        />
+      </View>
+
+      {/* Amrutam Blog */}
+      <View style={{marginVertical: 10}}>
+        <Text style={styles.textSectionTitle}>Amrutam Blog</Text>
+
+        <FlatList
+          horizontal
+          data={blogs}
+          keyExtractor={(item, index) => item + index}
+          ItemSeparatorComponent={<View style={{width: 10}} />}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item}) => <Blog item={item} />}
+        />
+      </View>
+
+      {/* What are you looking for ? */}
+      <View style={{marginVertical: 10}}>
+        <Text style={styles.textSectionTitle}>What are you looking for ?</Text>
+
+        <FlatList
+          horizontal
+          data={lookingFor}
+          keyExtractor={(item, index) => item + index}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item}) => <ItemLookinFor item={item} />}
+          contentContainerStyle={{
+            justifyContent: 'space-between',
+            flexGrow: 1,
+          }}
+        />
+      </View>
+
+      {/* Top Rated Doctors */}
+      <View style={{marginVertical: 5}}>
+        <Text style={styles.textSectionTitle}>Top Rated Doctors</Text>
+        <FlatList
+          horizontal
+          data={doctors}
+          keyExtractor={(item, index) => item + index}
+          ItemSeparatorComponent={<View style={{width: 10}} />}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item}) => <Doctor item={item} />}
+        />
       </View>
     </ScrollView>
   );
@@ -354,6 +366,8 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   containerDoctorCard: {
     width: 200,

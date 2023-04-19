@@ -9,13 +9,15 @@ import {
 } from 'react-native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Home from '../screens/Home';
+import {useNavigation} from '@react-navigation/native';
+import Home from '../screens/Home/Home';
 import BulletinNavigator from './BulletinNavigator';
 import HeaderBulletin from '../components/HeaderBulletin';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Store from '../screens/Store';
 import Orders from '../screens/Orders';
 import Consult from '../screens/Consult';
+import HomeStackNavigator from './HomeStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,14 +48,14 @@ const screenOptions = {
 // SCREEN OPTIONS ENDS HERE
 
 // HEADER ITEM COMPONENTS STARTS HERE
-const HeaderMenu = props => {
+export const HeaderMenu = props => {
   return (
     <TouchableOpacity style={styles.headerItemContainer}>
       <Icon name="menu" size={30} color={props.tintColor} />
     </TouchableOpacity>
   );
 };
-const HeaderProfileImage = props => {
+export const HeaderProfileImage = props => {
   return (
     <TouchableOpacity
       onPress={() => Alert.alert('Profile', 'Open Profile')}
@@ -65,9 +67,14 @@ const HeaderProfileImage = props => {
     </TouchableOpacity>
   );
 };
-const HeaderChevronLeft = props => {
+export const HeaderChevronLeft = props => {
+  // console.log(props);
+  // if (props.canGoBack !== true) return null;
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity onPress={()=>Alert.alert('Back','Handle Back')} style={styles.headerItemContainer}>
+    <TouchableOpacity
+      onPress={() => navigation.goBack()}
+      style={styles.headerItemContainer}>
       <Icon
         name="chevron-left-circle-outline"
         size={30}
@@ -76,7 +83,7 @@ const HeaderChevronLeft = props => {
     </TouchableOpacity>
   );
 };
-const HeaderSearch = props => {
+export const HeaderSearch = props => {
   return (
     <TouchableOpacity
       onPress={() => Alert.alert('Search', 'Open Search')}
@@ -85,7 +92,7 @@ const HeaderSearch = props => {
     </TouchableOpacity>
   );
 };
-const HeaderCart = props => {
+export const HeaderCart = props => {
   return (
     <TouchableOpacity
       onPress={() => Alert.alert('Cart', 'Open Cart')}
@@ -106,20 +113,13 @@ export default function BottomTabNavigator() {
       sceneContainerStyle={{backgroundColor: '#ffffff'}}
       screenOptions={screenOptions}>
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="Home Navigator"
+        component={HomeStackNavigator}
         options={{
+          headerShown: false,
           title: 'Home',
           tabBarIcon: ({color, size}) => (
             <Icon name="home" color={color} size={size} />
-          ),
-          headerLeft: props => <HeaderMenu {...props} />,
-          headerRight: props => (
-            <>
-              <HeaderSearch {...props} />
-              <HeaderCart {...props} />
-              <HeaderProfileImage {...props} />
-            </>
           ),
         }}
       />

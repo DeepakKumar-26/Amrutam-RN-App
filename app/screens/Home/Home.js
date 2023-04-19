@@ -12,14 +12,15 @@ import {
 import React, {useState} from 'react';
 import Slider from '@react-native-community/slider';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {blogs} from '../data/blogs';
-import {lookingFor} from '../data/lookingFor';
-import {doctors} from '../data/doctors';
-import {activities} from '../data/activity';
-import {moods} from '../data/moods';
-import {recentOrders} from '../data/recentOrders';
-import {shopByCategory} from '../data/shopCategories';
-import {daysOfWeek, months} from '../data/calender';
+import {useNavigation} from '@react-navigation/native';
+import {blogs} from '../../data/blogs';
+import {lookingFor} from '../../data/lookingFor';
+import {doctors} from '../../data/doctors';
+import {activities} from '../../data/activity';
+import {moods} from '../../data/moods';
+import {recentOrders} from '../../data/recentOrders';
+import {shopByCategory} from '../../data/shopCategories';
+import {daysOfWeek, months} from '../../data/calender';
 
 const {height, width} = Dimensions.get('window');
 // ACTIVITY COMPONENT
@@ -54,19 +55,24 @@ const ProductCategory = ({item}) => {
 };
 
 const Blog = ({item}) => {
+  const navigation = useNavigation();
   return (
     <TouchableOpacity style={styles.containerBlog}>
       <View style={{flex: 1, padding: 10, justifyContent: 'space-between'}}>
         <Text numberOfLines={3} style={{color: 'black'}}>
           {item.title}
         </Text>
-        <TouchableOpacity style={styles.btnReadMore}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Blog', {blog: item});
+          }}
+          style={styles.btnReadMore}>
           <Text style={{color: '#ffffff'}}>Read More</Text>
         </TouchableOpacity>
         <Text style={{color: 'black'}}>{item.posted_at}</Text>
       </View>
 
-      <ImageBackground source={require('../assets/photo.png')}>
+      <ImageBackground source={require('../../assets/photo.png')}>
         <Image
           source={{
             uri: item?.thumbnail_url,
@@ -152,9 +158,9 @@ const Doctor = ({item}) => {
   );
 };
 
-export default function Home() {
+export default function Home({navigation}) {
   const [showCard, setShowCard] = useState(true);
-  const [sliderValue, setSliderValue] = useState(.5);
+  const [sliderValue, setSliderValue] = useState(0.5);
   const date = new Date();
 
   const currentMonth = months[date.getMonth()];
@@ -296,7 +302,9 @@ export default function Home() {
 
       {/* Amrutam Blog */}
       <View style={{marginVertical: 10}}>
-        <Text style={styles.textSectionTitle}>Amrutam Blog</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Blogs')}>
+          <Text style={styles.textSectionTitle}>Amrutam Blog</Text>
+        </TouchableOpacity>
 
         <FlatList
           horizontal

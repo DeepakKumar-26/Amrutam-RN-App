@@ -1,8 +1,31 @@
-import {FlatList, Image, StyleSheet, Text,TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {notifications} from '../../data/notifications';
 
+export const ListEmpty = ({title,subTitle}) => {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={{color: Color.primary, fontSize: 18, fontWeight: 'bold'}}>
+       {title}
+      </Text>
+      <Image
+        source={require('../../assets/lotus.png')}
+        style={{height: 150, width: 150}}
+      />
+      <Text style={{color: 'black',textAlign:'center'}}>
+        {subTitle}
+      </Text>
+    </View>
+  );
+};
 export default function Notifications() {
   const NotificationItem = ({item}) => {
     return (
@@ -29,29 +52,13 @@ export default function Notifications() {
     );
   };
 
-  const ListEmpty = () => {
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={{color: Color.primary, fontSize: 18, fontWeight: 'bold'}}>
-          No new notifications!
-        </Text>
-        <Image
-          source={require('../../assets/lotus.png')}
-          style={{height: 150, width: 150}}
-        />
-        <Text style={{color: 'black'}}>
-          Check this section for updates and special offers.
-        </Text>
-      </View>
-    );
-  };
   return (
     <FlatList
       data={notifications}
       keyExtractor={(item, index) => item + index}
       ItemSeparatorComponent={<View style={{height: 5}} />}
       contentContainerStyle={{flexGrow: 1, padding: 10}}
-      ListEmptyComponent={<ListEmpty />}
+      ListEmptyComponent={<ListEmpty title='No new notifications!' subTitle='Check this section for updates and special offers.' />}
       renderItem={({item}) => <NotificationItem item={item} />}
     />
   );

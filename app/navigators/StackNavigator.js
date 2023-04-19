@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Home from '../screens/Home';
+import Home from '../screens/Home/Home';
 import BulletinNavigator from './BulletinNavigator';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 

@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import Slider from '@react-native-community/slider';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
@@ -166,6 +166,9 @@ export default function Home({navigation}) {
   const currentMonth = months[date.getMonth()];
   const currentDate = date.getDate();
   const currentDay = daysOfWeek[date.getDay()];
+  useEffect(() => {
+    setShowCard(true);
+  }, []);
 
   return (
     <ScrollView
@@ -374,8 +377,8 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignSelf:'flex-start',
+    justifyContent: 'flex-start',
   },
   containerDoctorCard: {
     width: 200,

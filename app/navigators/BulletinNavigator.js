@@ -8,13 +8,8 @@ const Tab = createMaterialTopTabNavigator();
 
 export default function BulletinNavigator() {
   const [focussed, setFocussed] = useState('notification');
-  const tabBackground = focussed ? 'crimson' : 'lightgrey';
+  // const tabBackground = focussed ? 'crimson' : 'lightgrey';
   return (
-    // <Tab.Navigator>
-    //   <Tab.Screen name="Notifications" component={Notifications} />
-    //   <Tab.Screen name="Chats" component={Chats} />
-    // </Tab.Navigator>
-
     <View style={{flex: 1}}>
       <View style={{height: 50, flexDirection: 'row', paddingHorizontal: 10}}>
         <View style={{flex: 1}}>

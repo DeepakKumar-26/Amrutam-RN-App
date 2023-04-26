@@ -68,8 +68,6 @@ export const HeaderProfileImage = props => {
   );
 };
 export const HeaderChevronLeft = props => {
-  // console.log(props);
-  // if (props.canGoBack !== true) return null;
   const navigation = useNavigation();
   return (
     <TouchableOpacity

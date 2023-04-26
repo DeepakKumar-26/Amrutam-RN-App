@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import Slider from '@react-native-community/slider';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
@@ -160,7 +160,7 @@ const Doctor = ({item}) => {
 
 export default function Home({navigation}) {
   const [showCard, setShowCard] = useState(true);
-  const [sliderValue, setSliderValue] = useState(0.5);
+  const [sliderValue, setSliderValue] = useState(3);
   const date = new Date();
 
   const currentMonth = months[date.getMonth()];
@@ -210,14 +210,7 @@ export default function Home({navigation}) {
             {moods.map(item => (
               <Icon
                 name={item.icon}
-                size={
-                  (sliderValue === 0
-                    ? item.value_min <= sliderValue
-                    : item.value_min < sliderValue) &&
-                  sliderValue <= item.value_max
-                    ? 50
-                    : 30
-                }
+                size={sliderValue === item.value ? 50 : 30}
                 color={Color.primary}
                 key={item.id}
               />
@@ -226,8 +219,9 @@ export default function Home({navigation}) {
 
           <View>
             <Slider
-              minimumValue={0}
-              maximumValue={1}
+              minimumValue={1}
+              maximumValue={5}
+              step={1}
               onValueChange={value => setSliderValue(value)}
               value={sliderValue}
               minimumTrackTintColor={Color.primary}
@@ -377,7 +371,7 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
-    alignSelf:'flex-start',
+    alignSelf: 'flex-start',
     justifyContent: 'flex-start',
   },
   containerDoctorCard: {

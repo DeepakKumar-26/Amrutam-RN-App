@@ -1,0 +1,29 @@
+name: Android Build
+
+on: push
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Setup Android SDK
+        uses: actions/setup-android@v2
+        with:
+          sdk-version: '30.0.3'
+      - name: Build app
+        run: |
+          cd C:/Users/deepa/OneDrive/Desktop/MAD/Amrutam
+          yarn install
+          cd android
+          ./gradlew assembleRelease
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release
+          path: C:/Users/deepa/OneDrive/Desktop/MAD/Amrutam/android/app/build/outputs/apk/release/app-release.apk

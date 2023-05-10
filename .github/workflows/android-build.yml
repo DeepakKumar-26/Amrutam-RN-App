@@ -6,6 +6,8 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
+      - name: Print runner version
+        run: echo ${{ runner.version }}
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Setup JDK
@@ -19,8 +21,8 @@ jobs:
         uses: android-actions/setup-android@v2.0.2
         with:
           sdk-version: ''
-      - name: Install Dependencies
-        run: npm ci
+      - name: Install dependencies
+        run: npm install
 
       - name: Build app
         run: |

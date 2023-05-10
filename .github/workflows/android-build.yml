@@ -21,7 +21,7 @@ jobs:
 
       - name: Build app
         run: |
-          cd C:/Users/deepa/OneDrive/Desktop/MAD/Amrutam
+          cd https://github.com/DeepakKumar-26/Amrutam-RN-App
           yarn install
           cd android
           ./gradlew assembleRelease
@@ -29,4 +29,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app-release
-          path: C:/Users/deepa/OneDrive/Desktop/MAD/Amrutam/android/app/build/outputs/apk/release/app-release.apk
+          path: https://github.com/DeepakKumar-26/Amrutam-RN-App/android/app/build/outputs/apk/release/app-release.apk

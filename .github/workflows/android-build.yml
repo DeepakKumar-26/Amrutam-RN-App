@@ -16,6 +16,10 @@ jobs:
         uses: actions/setup-android@v2.2.0
         with:
           sdk-version: '30.0.3'
+
+      - name: Setup Android SDK Tools
+        uses: android-actions/setup-android@v2.0.2
+
       - name: Build app
         run: |
           cd C:/Users/deepa/OneDrive/Desktop/MAD/Amrutam

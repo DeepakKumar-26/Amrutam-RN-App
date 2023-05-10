@@ -17,7 +17,7 @@ jobs:
       - name: Setup Android SDK Tools
         uses: android-actions/setup-android@v2.0.2
         with:
-          sdk-version: '30.0.3'
+          sdk-version: ''
 
       - name: Build app
         run: |

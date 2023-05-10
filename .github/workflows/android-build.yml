@@ -23,7 +23,7 @@ jobs:
       - name: Build app
         run: |
           cd D:\a\_temp\6326ff41-ff58-463f-9958-2bd910ebfa45.ps1:2
-          yarn install
+          npm install
           cd android
           ./gradlew assembleRelease
       - name: Upload APK

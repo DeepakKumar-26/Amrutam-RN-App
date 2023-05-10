@@ -36,3 +36,15 @@ jobs:
         with:
           coverage-file: ./jest-report.json
           base-coverage-file: ./jest-report.json
+
+  # Second Job
+  build-android:
+    needs: install-and-test
+    uses: ./.github/workflows/build-android.yml
+    secrets: inherit
+
+  # Third Job
+  build-ios:
+    needs: install-and-test
+    uses: ./.github/workflows/build-ios.yml
+    secrets: inherit

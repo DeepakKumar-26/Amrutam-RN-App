@@ -23,7 +23,8 @@ jobs:
       
       - name: Build APK
         run: |
-          npm run android:release
+          cd android
+          ./gradlew assembleRelease
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:

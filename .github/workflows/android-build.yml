@@ -15,11 +15,17 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Checkout code
+      - name: Checkout code 
         uses: actions/checkout@v2
         
       - name: Install dependencies
         run: npm install
       
-      - name: Build app
-        run: npx react-native run-android
+      - name: Build APK
+        run: |
+          npm run android:release
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release
+          path: android/app/build/outputs/apk/release/app-release.apk 
